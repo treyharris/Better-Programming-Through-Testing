@@ -24,7 +24,12 @@ my %is_leap_year = (
 );
 
 for my $year (sort {$a <=> $b} keys %is_leap_year) {
-    is(MyDate->is_leap_year($year), $is_leap_year{$year}, "Works for $year");
+    my $is = 'is not';
+    if ($is_leap_year{$year}) {
+        $is = 'is';
+    }
+    is(!!MyDate->is_leap_year($year), !!$is_leap_year{$year},
+       "$year $is a leap year");
 }
 
 done_testing(16);
