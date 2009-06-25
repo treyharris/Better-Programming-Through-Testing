@@ -3,6 +3,8 @@ use warnings;
 
 use Test::More;
 
+use feature ':5.10';
+
 use_ok('MyDate', "Can load MyDate.pm");
 
 my %is_leap_year = (
