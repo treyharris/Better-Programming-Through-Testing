@@ -34,7 +34,7 @@ for my $year (sort {$a <=> $b} keys %is_leap_year) {
 
 # How about array returns?
 
-ok(!!@{ [ MyDate->is_leap_year(2000)]}, "In array context, returns true for 2000");
+ok(@{ [ MyDate->is_leap_year(2000)]}, "In array context, returns true for 2000");
 ok(!@{ [ MyDate->is_leap_year(1900)]}, "In array context, returns false for 1900");
 
 done_testing(18);
