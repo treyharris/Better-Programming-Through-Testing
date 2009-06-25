@@ -32,7 +32,26 @@ Returns the named $dow for the $year, $month, and $day
 
     MyDate->day_of_week(2009, 6, 25); # Thursday
 
+May not work for dates prior to 1753 or after 2699.  If out of the
+allowable range, will throw an exception.
+
 =cut
+
+my @day_for_num = qw{Sunday Monday Tuesday Wednesday Thursday Friday Saturday};
+
+sub day_of_week {
+    my ($class, $year, $month, $day) = @_;
+    
+    my $century_day   = _century_day($year, $month, $day);
+    my $year_number   = $year % 100;
+    my $year_offset   = _year_offset($year, $month, $day);
+    my $months_offset = _months_offset($year, $month, $day);
+
+    my $offset = $century_day + $year_number + $year_offset +
+        $months_offset + $day;
+
+    return $day_for_num[$offset % 7];
+}
 
 sub _century_day {
     my ($year, $month, $day) = @_;
@@ -81,22 +100,6 @@ sub _year_offset {
     my $year_number = $year % 100;
     
     return int($year_number / 4);
-}
-
-my @day_for_num = qw{Sunday Monday Tuesday Wednesday Thursday Friday Saturday};
-
-sub day_of_week {
-    my ($class, $year, $month, $day) = @_;
-    
-    my $century_day   = _century_day($year, $month, $day);
-    my $year_number   = $year % 100;
-    my $year_offset   = _year_offset($year, $month, $day);
-    my $months_offset = _months_offset($year, $month, $day);
-
-    my $offset = $century_day + $year_number + $year_offset +
-        $months_offset + $day;
-
-    return $day_for_num[$offset % 7];
 }
 
 1;
